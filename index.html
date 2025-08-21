@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Stack - Personal Reading Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-book-reader"></i>
+                    <h1>Read Stack</h1>
+                </div>
+                <p>Professional Personal Reading Management System</p>
+                <div class="stats-bar">
+                    <div class="stat-item">
+                        <span class="stat-number" id="totalBooks">0</span>
+                        <span class="stat-label">Total Books</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="finishedBooks">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="readingProgress">0%</span>
+                        <span class="stat-label">Progress</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Add Book Form -->
+            <section class="add-book">
+                <div class="section-header">
+                    <h2><i class="fas fa-plus-circle"></i> Add New Book</h2>
+                    <p>Expand your digital library with detailed book information</p>
+                </div>
+                <form id="bookForm" class="book-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="title"><i class="fas fa-book"></i> Book Title</label>
+                            <input type="text" id="title" placeholder="Enter book title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="author"><i class="fas fa-user-edit"></i> Author</label>
+                            <input type="text" id="author" placeholder="Enter author name" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="category"><i class="fas fa-tags"></i> Category</label>
+                            <select id="category">
+                                <option value="Fiction">📖 Fiction</option>
+                                <option value="Non-Fiction">📚 Non-Fiction</option>
+                                <option value="Science">🔬 Science</option>
+                                <option value="Biography">👤 Biography</option>
+                                <option value="History">🏛️ History</option>
+                                <option value="Self-Help">💡 Self-Help</option>
+                                <option value="Business">💼 Business</option>
+                                <option value="Technology">💻 Technology</option>
+                                <option value="Romance">💝 Romance</option>
+                                <option value="Mystery">🔍 Mystery</option>
+                                <option value="Fantasy">🧙‍♂️ Fantasy</option>
+                                <option value="Educational">🎓 Educational</option>
+                                <option value="Other">📋 Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status"><i class="fas fa-bookmark"></i> Reading Status</label>
+                            <select id="status">
+                                <option value="to-read">📝 To Read</option>
+                                <option value="reading">📖 Currently Reading</option>
+                                <option value="finished">✅ Finished</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="notes"><i class="fas fa-sticky-note"></i> Personal Notes</label>
+                        <textarea id="notes" placeholder="Add your thoughts, quotes, or key insights..." rows="3"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Book to Library</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Filter Controls -->
+            <section class="filters">
+                <div class="section-header">
+                    <h2><i class="fas fa-filter"></i> Library Overview</h2>
+                    <p>Filter and organize your reading collection</p>
+                </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" onclick="filterBooks('all')">
+                        <i class="fas fa-list"></i>
+                        <span>All Books</span>
+                        <span class="count" id="allCount">0</span>
+                    </button>
+                    <button class="filter-btn to-read" onclick="filterBooks('to-read')">
+                        <i class="fas fa-clock"></i>
+                        <span>To Read</span>
+                        <span class="count" id="toReadCount">0</span>
+                    </button>
+                    <button class="filter-btn reading" onclick="filterBooks('reading')">
+                        <i class="fas fa-book-open"></i>
+                        <span>Reading</span>
+                        <span class="count" id="readingCount">0</span>
+                    </button>
+                    <button class="filter-btn finished" onclick="filterBooks('finished')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Finished</span>
+                        <span class="count" id="finishedCount">0</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Books Display -->
+            <section class="books">
+                <div class="section-header">
+                    <h2><i class="fas fa-library"></i> My Library</h2>
+                    <p>Your curated collection of books and reading progress</p>
+                </div>
+                <div id="booksList">
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <h3>Welcome to Your Reading Journey</h3>
+                        <p>Start building your digital library by adding your first book!</p>
+                        <div class="empty-features">
+                            <div class="feature">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Track Progress</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-sticky-note"></i>
+                                <span>Add Notes</span>
+                            </div>
+                            <div class="feature">
+                                <i class="fas fa-filter"></i>
+                                <span>Organize Books</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <p>&copy; 2025 Read Stack - Professional Reading Management System</p>
+                <div class="footer-links">
+                    <span><i class="fas fa-laptop-code"></i> Built with HTML, CSS & JavaScript</span>
+                    <span><i class="fas fa-shield-alt"></i> Privacy-First Design</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
